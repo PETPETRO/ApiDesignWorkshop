@@ -1,0 +1,89 @@
+openapi: 3.0.0
+info:
+  title: Company Structure API
+  version: 1.0.0
+  description: Provides information about the company structure
+  contact:
+    name: Some Team
+    email: some-team-email@t-systems.com
+servers:
+  - url: 'https://serverRoot/company-structure/v1'
+paths:
+  '/employee/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        description: Identifier of the Employee
+        required: true
+    get:
+      summary: Your GET endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '404':
+          description: Not Found
+      operationId: get-employee-by-id
+      description: Retrieves an Employee by ID
+      tags:
+        - Employee
+  /employee:
+    post:
+      summary: ''
+      operationId: add-employee
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '404':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+      description: Adds an Employee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+            examples: {}
+          application/gzip:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      tags:
+        - Employee
+    parameters: []
+components:
+  schemas:
+    Employee:
+      title: Employee
+      type: object
+      description: Employee represents a single human being
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the employee
+        name:
+          type: string
+          description: The person's full name
+        birthdate:
+          type: string
+          format: date-time
+  securitySchemes:
+    API Key - 1:
+      name: API Key
+      type: apiKey
+      key: app_id
+      in: header
+      description: ''
+tags:
+  - name: Employee
